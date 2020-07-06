@@ -1,0 +1,72 @@
+Stonnington (C) - 89
+Banyule (C) - 83
+Melbourne (C) - 68
+Greater Geelong (C) - 63
+Boroondara (C) - 61
+Mornington Peninsula (S) - 60
+Casey (C) - 53
+Moreland (C) - 51
+Port Phillip (C) - 47
+Glen Eira (C) - 46
+Monash (C) - 45
+Hume (C) - 37
+Frankston (C) - 36
+Moonee Valley (C) - 36
+Darebin (C) - 34
+Brimbank (C) - 33
+Bayside (C) - 30
+Manningham (C) - 29
+Wyndham (C) - 28
+Kingston (C) - 25
+Yarra (C) - 25
+Whitehorse (C) - 22
+Whittlesea (C) - 22
+Nillumbik (S) - 21
+Yarra Ranges (S) - 21
+Melton (C) - 20
+Greater Dandenong (C) - 14
+Cardinia (S) - 13
+Hobsons Bay (C) - 13
+Knox (C) - 12
+Maroondah (C) - 11
+Greater Shepparton (C) - 10
+Maribyrnong (C) - 10
+Moira (S) - 10
+Surf Coast (S) - 10
+Wellington (S) - 10
+Ballarat (C) - 9
+Greater Bendigo (C) - 9
+Mitchell (S) - 9
+Latrobe (C) - 7
+Macedon Ranges (S) - 7
+Mount Alexander (S) - 6
+Baw Baw (S) - 5
+Mildura (RC) - 5
+South Gippsland (S) - 5
+Warrnambool (C) - 5
+Bass Coast (S) - 4
+Benalla (RC) - 3
+Horsham (RC) - 3
+Loddon (S) - 3
+Mansfield (S) - 3
+Northern Grampians (S) - 3
+Swan Hill (RC) - 3
+Campaspe (S) - 2
+Hepburn (S) - 2
+Southern Grampians (S) - 2
+Strathbogie (S) - 2
+Wangaratta (RC) - 2
+Ararat (RC) - 1
+Central Goldfields (S) - 1
+Corangamite (S) - 1
+East Gippsland (S) - 1
+Gannawarra (S) - 1
+Glenelg (S) - 1
+Golden Plains (S) - 1
+Moorabool (S) - 1
+Moyne (S) - 1
+Murrindindi (S) - 1
+Tumbarumba (A) - 1
+West Wimmera (S) - 1
+Wodonga (RC) - 1
+Yarriambiack (S) - 1
