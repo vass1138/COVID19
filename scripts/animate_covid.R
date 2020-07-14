@@ -131,7 +131,7 @@ library(av)
 ds <- dc %>%
   filter(Type=="C")
 
-nsecs <- length(table(ds$SampleDate)) * 0.5
+nsecs <- length(table(ds$SampleDate)) * 0.33
 
 p <- ds %>%
   filter(Type=="C") %>%
@@ -146,7 +146,7 @@ geom_text(data=subset(ds, Rate > 45),
                   aes(Density,Rate,label=Name,size=1.5), hjust=0, nudge_x=100, nudge_y=10, show.legend = FALSE) +
   labs(x=xlab,
        y="Confirmed Cases (per 100000 people)",
-       title="Daily COVID-19 Confirmed Cases vs LGA Population Density",
+       title="Total COVID-19 Cases vs LGA Population Density by Day",
        caption="www.linkedin.com/in/evassiliadis/\ngithub.com/vass1138/covid19"
   ) +
   theme(plot.title = element_text(hjust = 0.5),
@@ -155,7 +155,7 @@ geom_text(data=subset(ds, Rate > 45),
 
 q <- p + transition_time(SampleDate) +labs(subtitle = "Melbourne, Australia - Date: {frame_time}")
 
-a <- animate(q,renderer = ffmpeg_renderer(),duration=nsecs)
+a <- animate(q,renderer = ffmpeg_renderer(),width=1280,height=720,res=150,duration=nsecs)
 anim_save("foo.mp4",a)
 
 
