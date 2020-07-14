@@ -1,11 +1,11 @@
 ## ---------------------------
 ##
-## Script name: analyse_covid.R
+## Script name: animate_covid.R
 ##
 ## Purpose of script: Load all clean data
 ##
 ##
-## Author: Dr. Emanuel Vassiliadis
+## Author: Emanuel Vassiliadis
 ##
 ## Date Created: 2020-07-02
 ##
@@ -13,8 +13,9 @@
 ##
 ## ---------------------------
 ##
-## Notes: Customised for DHHS COVID-19 input
-##   
+## Notes:
+## Customised for DHHS COVID-19 input.
+## Use geom_text() so labels remained fixed relative to data points  
 ##
 ## ---------------------------
 
@@ -139,8 +140,10 @@ p <- ds %>%
   scale_size(range = c(2,7), name="Economic\nResource\nPentile") +
 #  geom_text_repel(data=subset(ds, Density > 1000 | Rate > 45),
 #                  aes(Density,Rate,label=Name,size=1), show.legend = FALSE) +
-  geom_text_repel(data=subset(ds, Rate > 45),
-                   aes(Density,Rate,label=Name,size=1.5), seed=10000, point.padding=0.2, show.legend = FALSE) +
+#  geom_text_repel(data=subset(ds, Rate > 45),
+#                aes(Density,Rate,label=Name,size=1.5), seed=10000, point.padding=0.2, show.legend = FALSE) +
+geom_text(data=subset(ds, Rate > 45),
+                  aes(Density,Rate,label=Name,size=1.5), hjust=0, nudge_x=100, nudge_y=10, show.legend = FALSE) +
   labs(x=xlab,
        y="Confirmed Cases (per 100000 people)",
        title="Daily COVID-19 Confirmed Cases vs LGA Population Density",
