@@ -1,43 +1,38 @@
 ## ---------------------------
 ##
-## Script name: animate_covid.R
+## Script name: load_clean_data.R
 ##
-## Purpose of script:
-## Load all clean data, combine with ABS LGA data
-## DEPRECATED: See covid_animate_bubble.R
+## Purpose of script:  Loads clean data,  Called by child scripts.
 ##
-## Author: Emanuel Vassiliadis
 ##
-## Date Created: 2020-07-02
+## Author: Dr. Emanuel Vassiliadis
+##
+## Date Created: 2020-07-18
 ##
 ## LinkedIn: https://www.linkedin.com/in/evassiliadis/
 ##
 ## ---------------------------
 ##
 ## Notes:
-## Customised for DHHS COVID-19 input.
-## Use geom_text() so labels remained fixed relative to data points  
+##   
 ##
 ## ---------------------------
 
 rm(list = ls(all = TRUE))
 
 library(here)
-here()
+getwd()
 
 library(tidyverse)
-library(stringr)
-library(ggrepel)
 
 install_this_library <- function(libname) {
-  
+
   if (!(libname %in% installed.packages())) {
     install.packages(libname)
   } else {
     print(paste0(libname," already installed"))
   }
 }
-
 
 this_path <- here("data","dhhs_clean")
 files <- list.files(this_path,pattern="\\d+\\.txt$")
@@ -52,9 +47,9 @@ for (i in 1:length(files)) {
   
   # read list from text file
   df <- as.data.frame(read_csv(paste0(this_path,"/",this_file),col_names=TRUE,trim_ws=TRUE))
-
+  
   data <- rbind(df,data)
-
+  
 }
 
 # convert to number
@@ -117,48 +112,3 @@ dc$SEAD5 <- ceiling(dc$DecileSEAD / 2)
 dc$SED5 <- ceiling(dc$DecileSED / 2)
 
 dc <- dc %>% arrange(desc(ER5))
-
-xlab <- expression(paste('Population Density (persons/',km^2,')'))
-
-#install.packages("gganimate")
-#install.packages("gifski")
-#install.packages("av")
-library(gganimate)
-library(gifski)
-library(av)
-
-#install.ffmpeg()
-
-ds <- dc %>%
-  filter(Type=="C")
-
-nsecs <- length(table(ds$SampleDate)) * 0.33
-
-p <- ds %>%
-  filter(Type=="C") %>%
-  ggplot(aes(x=Density,y=Rate,size=ER5,color=Type)) +
-  geom_point(alpha=0.5) +
-  scale_size(range = c(2,7), name="Economic\nResource\nPentile") +
-#  geom_text_repel(data=subset(ds, Density > 1000 | Rate > 45),
-#                  aes(Density,Rate,label=Name,size=1), show.legend = FALSE) +
-#  geom_text_repel(data=subset(ds, Rate > 45),
-#                aes(Density,Rate,label=Name,size=1.5), seed=10000, point.padding=0.2, show.legend = FALSE) +
-geom_text(data=subset(ds, Rate > 45),
-                  aes(Density,Rate,label=Name,size=1.5), hjust=0, nudge_x=100, nudge_y=10, show.legend = FALSE) +
-  labs(x=xlab,
-       y="Confirmed Cases (per 100000 people)",
-       title="Total COVID-19 Cases vs LGA Population Density by Day",
-       caption="www.linkedin.com/in/evassiliadis/\ngithub.com/vass1138/covid19"
-  ) +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        plot.caption = element_text(hjust=1,face="italic"))
-
-q <- p + transition_time(SampleDate) +labs(subtitle = "Melbourne, Australia - Date: {frame_time}")
-
-a <- animate(q,renderer = ffmpeg_renderer(),width=1280,height=720,res=150,duration=nsecs)
-anim_save("foo.mp4",a)
-
-
-
-
