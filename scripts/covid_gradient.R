@@ -119,6 +119,10 @@ dc <- dc %>% arrange(desc(ER5))
 # xlab <- expression(paste('Population Density (persons/',km^2,')'))
 xlab <- "Date"
 
+# reformat date
+dc <- dc %>%
+  mutate(NumericDate = as.numeric(SampleDate))
+
 lga_NormCounts_ordered <- dc %>%
   filter(Type=="C") %>%
   group_by(Name) %>%
@@ -127,34 +131,33 @@ lga_NormCounts_ordered <- dc %>%
   select(Name,SampleDate,NormCount) %>%
   ungroup()
 
-# top 9
+# top 9 LGAs (used for facets)
 lga_NormCounts_top <- lga_NormCounts_ordered[1:9,]$Name
 
-# order by name, date
-dc <- dc %>%
-  arrange(Name,SampleDate) %>%
-  mutate(NumericDate = as.numeric(SampleDate))
-
 # compute differential, remove rows where Name changes across lag  
-slope <- dc %>%
-  mutate(InfectionRate = (TotalCount-lag(TotalCount))/(NumericDate-lag(NumericDate))) %>%
+ds <- dc %>%
+  arrange(Name,SampleDate) %>%
+  mutate(InfectionRate = (NormCount-lag(NormCount))/(NumericDate-lag(NumericDate))) %>%
   filter(Name==lag(Name))
 
 # identify latest count per name
-slope <- slope %>%
+ds <- ds %>%
   group_by(Name) %>%
-  mutate(MaxCount=max(TotalCount))
+  mutate(MaxCount=max(NormCount)) %>%
+  mutate(FacetLabel=paste0(Name," (",format(round(MaxCount,0),nsmall=0),")")) %>%
+  ungroup()
 
 # plot
-p <- slope %>%
+p <- ds %>%
   filter(Name %in% lga_NormCounts_top) %>%
+  mutate(NameOrder=fct_reorder(FacetLabel,-MaxCount)) %>%
   ggplot(aes(x=SampleDate,y=InfectionRate)) +
   geom_smooth(alpha=0.5) +
-  facet_wrap(~ paste0(Name," (",MaxCount,")")) +
+  facet_wrap(~ NameOrder) +
   labs(x=xlab,
        y="Infection Rate (per 100000 people per Day)",
        title="COVID-19 Daily Infection Rate in Victoria, Australia",
-       subtitle="Top 9 Local Government Areas by (unnormalised) total positive cases",
+       subtitle="Top 9 Local Government Areas by Normalised Total Positive Cases",
        caption="www.linkedin.com/in/evassiliadis/\ngithub.com/vass1138/covid19"
   ) +
   theme(plot.title = element_text(hjust = 0.5),
