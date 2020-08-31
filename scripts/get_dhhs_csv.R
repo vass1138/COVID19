@@ -39,9 +39,6 @@ df <- data %>%
 
 rename(df,c("LGA"="LGADisplay","TotalCount"="cases","ActiveCount"="active","SampleDate"="data_date"))
 
-# transpose lists and format as dataframe
-df <- as.data.frame(data.table::transpose(p), col.names = c("LGA","TotalCount"),stringsAsFactors = FALSE)
-
 # cleanup LGA
 df[,1] <- toupper(df[,1])
 
